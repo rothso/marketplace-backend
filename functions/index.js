@@ -1,7 +1,7 @@
+const functions = require('firebase-functions');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const port = 8000;
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -11,8 +11,6 @@ const indexRoutes = require('./routes/index');
 const itemRoutes = require('./routes/item');
 
 app.use('/', indexRoutes);
-app.use('/item', itemRoutes);
+app.use('/items', itemRoutes);
 
-app.listen(port, () => {
-  console.log(`We are live on port ${port}!`);
-});
+exports.app = functions.https.onRequest(app);

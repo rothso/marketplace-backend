@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-router.get('/create', (req, res) => {
+router.post('/new', (req, res) => {
   res.json({
     status: 'API Its working',
     message: 'Welcome to Marketplace!',
