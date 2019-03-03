@@ -1,7 +1,24 @@
 service cloud.firestore {
+
+  match /items/{itemId} {
+    allow write: if isValidItem();
+  }
+
   match /databases/{database}/documents {
     match /{document=**} {
-      allow read, write;
+      allow read;
     }
+  }
+
+  /// Functions ///
+
+  function isValidItem() {
+    return incomingData().size() == 5
+           && incomingData().hasAll(['category', 'contactEmail', 'contactName', 'contactPhone',  'description'])
+           && incomingData().category in ['Books', 'Furniture', 'Electronics', 'Other']
+           && incomingData().contactEmail is string
+           && incomingData().contactPhone is string
+           && incomingData().contactName is string
+           && incomingData().description is string;
   }
 }
